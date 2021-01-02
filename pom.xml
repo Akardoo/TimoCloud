@@ -15,20 +15,6 @@
     </modules>
 
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>TimoCloud-API</id>
-            <name>TimoCloud-API</name>
-            <url>http://maven.timo.cloud/repository/TimoCloud-API/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <distributionManagement>
         <repository>
             <id>akardoo-repo</id>
