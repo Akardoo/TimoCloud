@@ -31,16 +31,13 @@
 
     <distributionManagement>
         <repository>
-            <id>TimoCloud-API</id>
-            <name>TimoCloud-API</name>
-            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
+            <id>akardoo-repo</id>
+            <url>https://repo.akardoo.com/repository/releases/</url>
         </repository>
         <snapshotRepository>
-            <id>TimoCloud-API</id>
-            <name>TimoCloud-API</name>
-            <url>https://maven.timo.cloud/repository/TimoCloud-API/</url>
+            <id>akardoo-snapshots</id>
+            <url>https://repo.akardoo.com/repository/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-
 
 </project>
