@@ -1,5 +1,7 @@
 package cloud.timo.TimoCloud.bungeecord.commands;
 
+import cloud.timo.TimoCloud.api.TimoCloudAPI;
+import cloud.timo.TimoCloud.api.objects.ServerObject;
 import cloud.timo.TimoCloud.bungeecord.TimoCloudBungee;
 import cloud.timo.TimoCloud.bungeecord.managers.BungeeMessageManager;
 import net.md_5.bungee.api.CommandSender;
@@ -26,9 +28,10 @@ public class LobbyCommand extends Command {
             return;
         }
         player.connect(serverInfo);
+        ServerObject serverObject = TimoCloudAPI.getUniversalAPI().getServer(serverInfo.getName());
         if (TimoCloudBungee.getInstance().getFileManager().getConfig().getBoolean("sendLobbyCommandMessage"))
             BungeeMessageManager.sendMessage(sender, TimoCloudBungee.getInstance().getFileManager().getMessages().getString("LobbyConnect")
-                    .replace("{server_name}", serverInfo.getName()));
+                    .replace("{server_name}", serverObject.getExtra()));
     }
 
 }

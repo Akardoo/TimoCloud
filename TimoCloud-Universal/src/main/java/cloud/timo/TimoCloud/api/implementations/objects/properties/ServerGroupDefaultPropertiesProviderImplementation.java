@@ -41,7 +41,7 @@ public class ServerGroupDefaultPropertiesProviderImplementation implements Serve
 
     @Override
     public Collection<String> getSortOutStates() {
-        return Arrays.asList("OFFLINE", "STARTING", "INGAME", "RESTARTING");
+        return Arrays.asList("OFFLINE", "WAITING", "STARTING", "FULL", "INGAME", "ENDING", "RESTARTING");
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ServerGroupDefaultPropertiesProviderImplementation implements Serve
 
     @Override
     public List<String> getSpigotParameters() {
-        return Arrays.asList("--nogui", "-o false", "-h 0.0.0.0");
+        return Arrays.asList("-jar spigot.jar", "--nogui", "-o false", "-h 0.0.0.0");
     }
 
 }

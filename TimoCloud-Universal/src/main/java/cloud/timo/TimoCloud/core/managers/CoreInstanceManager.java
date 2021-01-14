@@ -368,7 +368,7 @@ public class CoreInstanceManager {
             map = best;
         }
 
-        Server server = new Server(name, id, base, map, group);
+        Server server = new Server(name, id.replace("$", "_"), base, map, group);
         server.start();
         return server;
     }

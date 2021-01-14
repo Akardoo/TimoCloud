@@ -202,6 +202,7 @@ public class BaseInstanceManager {
                 if (mapDirectory.exists()) copyDirectory(mapDirectory, temporaryDirectory);
             }
 
+            /*
             File spigotJar = new File(temporaryDirectory, "spigot.jar");
             if (!spigotJar.exists()) {
                 TimoCloudBase.getInstance().severe("Could not start server " + server.getName() + " because spigot.jar does not exist. " + (
@@ -209,6 +210,7 @@ public class BaseInstanceManager {
                                 : "Please make sure to have a file called 'spigot.jar' in your template."));
                 throw new ProxyStartException("spigot.jar does not exist");
             }
+            */
 
             File plugins = new File(temporaryDirectory, "/plugins/");
             plugins.mkdirs();
@@ -222,7 +224,7 @@ public class BaseInstanceManager {
                 throw new ServerStartException("Could not copy TimoCloud.jar into template");
             }
 
-            Integer port = getFreePort(41000);
+            Integer port = getFreePort(31000);
             if (port == null) {
                 TimoCloudBase.getInstance().severe("Error while starting server " + server.getName() + ": No free port found. Please report this!");
                 throw new ServerStartException("No free port found");
@@ -234,6 +236,11 @@ public class BaseInstanceManager {
             File serverProperties = new File(temporaryDirectory, "server.properties");
             setProperty(serverProperties, "online-mode", "false");
             setProperty(serverProperties, "server-name", server.getName());
+            if (!server.getName().contains("SURVIVAL")) {
+                setProperty(serverProperties, "allow-nether", "false");
+            }
+            setProperty(serverProperties, "view-distance", "8");
+            setProperty(serverProperties, "announce-player-achievements", "false");
 
             double millisNow = System.currentTimeMillis();
             TimoCloudBase.getInstance().info("Successfully prepared starting server " + server.getName() + " in " + (millisNow - millisBefore) / 1000 + " seconds.");
@@ -258,12 +265,12 @@ public class BaseInstanceManager {
 
                 Process process = new ProcessBuilder(
                         "/bin/sh", "-c",
-                        "screen -mdS " + server.getId() +
+                        "screen -mdS " + server.getId().replace("$", "_") +
                                 logString +
                                 " /bin/sh -c '" +
-                                "cd " + temporaryDirectory.getAbsolutePath() + " &&" +
+                                "cd " + temporaryDirectory.getAbsolutePath().replace("$", "\\$") + " &&" +
                                 " java -server" +
-                                " -Xmx" + server.getRam() + "M " +
+                                " -Xms" + server.getRam() + "M -Xmx" + server.getRam() + "M " +
                                 buildStartParameters(server.getJavaParameters()) +
                                 " -Dcom.mojang.eula.agree=true" +
                                 " -Dtimocloud-servername=" + server.getName() +
@@ -272,9 +279,9 @@ public class BaseInstanceManager {
                                 " -Dtimocloud-randommap=" + randomMap +
                                 " -Dtimocloud-mapname=" + mapName +
                                 " -Dtimocloud-static=" + server.isStatic() +
-                                " -Dtimocloud-templatedirectory=" + templateDirectory.getAbsolutePath() +
-                                " -Dtimocloud-temporarydirectory=" + temporaryDirectory.getAbsolutePath() +
-                                " -jar spigot.jar -p " + port + " " + buildStartParameters(server.getSpigotParameters()) +
+                                " -Dtimocloud-templatedirectory=" + templateDirectory.getAbsolutePath().replace("$", "\\$") +
+                                " -Dtimocloud-temporarydirectory=" + temporaryDirectory.getAbsolutePath().replace("$", "\\$") + " " +
+                                buildStartParameters(server.getSpigotParameters()) + " -p " + port +
                                 "'"
                 ).start();
                 TimoCloudBase.getInstance().info("Successfully started server screen session " + server.getName() + ".");
@@ -344,6 +351,7 @@ public class BaseInstanceManager {
                 copyDirectory(templateDirectory, temporaryDirectory);
             }
 
+            /*
             File bungeeJar = new File(temporaryDirectory, "BungeeCord.jar");
             if (!bungeeJar.exists()) {
                 TimoCloudBase.getInstance().severe("Could not start proxy " + proxy.getName() + " because BungeeCord.jar does not exist. " + (
@@ -351,6 +359,7 @@ public class BaseInstanceManager {
                                 : "Please make sure to have a file called 'BungeeCord.jar' in your template."));
                 throw new ProxyStartException("BungeeCord.jar does not exist");
             }
+            */
 
             File plugins = new File(temporaryDirectory, "/plugins/");
             plugins.mkdirs();
@@ -426,17 +435,17 @@ public class BaseInstanceManager {
                                 "cd " + temporaryDirectory.getAbsolutePath() + " &&" +
                                 " java -server" +
                                 " -Xmx" + proxy.getRam() + "M " +
-                                buildStartParameters(proxy.getJavaParameters()) +
                                 " -Dcom.mojang.eula.agree=true" +
                                 " -Dtimocloud-proxyname=" + proxy.getName() +
                                 " -Dtimocloud-proxyid=" + proxy.getId() +
                                 " -Dtimocloud-corehost=" + TimoCloudBase.getInstance().getCoreSocketIP() + ":" + TimoCloudBase.getInstance().getCoreSocketPort() +
                                 " -Dtimocloud-static=" + proxy.isStatic() +
                                 " -Dtimocloud-templatedirectory=" + templateDirectory.getAbsolutePath() +
-                                " -Dtimocloud-temporarydirectory=" + temporaryDirectory.getAbsolutePath() +
-                                " -jar BungeeCord.jar" +
+                                " -Dtimocloud-temporarydirectory=" + temporaryDirectory.getAbsolutePath() + " " +
+                                buildStartParameters(proxy.getJavaParameters()) +
                                 "'"
                 ).start();
+
 
                 TimoCloudBase.getInstance().info("Successfully started proxy screen session " + proxy.getName() + ".");
             } catch (Exception e) {
@@ -464,7 +473,7 @@ public class BaseInstanceManager {
     }
 
     private void blockPort(int port) {
-        recentlyUsedPorts.put(port, 60);
+        recentlyUsedPorts.put(port, 60*3);
     }
 
     private int getScreenVersion() {

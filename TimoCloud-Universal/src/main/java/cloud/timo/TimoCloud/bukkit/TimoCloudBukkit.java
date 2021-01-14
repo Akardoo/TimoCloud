@@ -5,6 +5,8 @@ import cloud.timo.TimoCloud.api.implementations.TimoCloudUniversalAPIBasicImplem
 import cloud.timo.TimoCloud.api.implementations.internal.TimoCloudInternalImplementationAPIBasicImplementation;
 import cloud.timo.TimoCloud.api.implementations.managers.APIResponseManager;
 import cloud.timo.TimoCloud.api.implementations.managers.EventManager;
+import cloud.timo.TimoCloud.api.objects.ServerGroupObject;
+import cloud.timo.TimoCloud.api.objects.ServerObject;
 import cloud.timo.TimoCloud.api.utils.APIInstanceUtil;
 import cloud.timo.TimoCloud.bukkit.api.TimoCloudBukkitAPIImplementation;
 import cloud.timo.TimoCloud.bukkit.api.TimoCloudInternalMessageAPIBukkitImplementation;
@@ -16,6 +18,7 @@ import cloud.timo.TimoCloud.bukkit.listeners.*;
 import cloud.timo.TimoCloud.bukkit.managers.BukkitFileManager;
 import cloud.timo.TimoCloud.bukkit.managers.SignManager;
 import cloud.timo.TimoCloud.bukkit.managers.StateByEventManager;
+import cloud.timo.TimoCloud.bukkit.papi.CloudPlaceholder;
 import cloud.timo.TimoCloud.bukkit.sockets.BukkitSocketClient;
 import cloud.timo.TimoCloud.bukkit.sockets.BukkitSocketClientHandler;
 import cloud.timo.TimoCloud.bukkit.sockets.BukkitSocketMessageManager;
@@ -29,12 +32,14 @@ import cloud.timo.TimoCloud.common.sockets.AESDecrypter;
 import cloud.timo.TimoCloud.common.sockets.AESEncrypter;
 import cloud.timo.TimoCloud.common.sockets.RSAHandshakeHandler;
 import cloud.timo.TimoCloud.common.utils.network.InetAddressUtil;
+import com.akardoo.akarcore.AkarCore;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
+import org.apache.commons.lang.RandomStringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -98,6 +103,26 @@ public class TimoCloudBukkit extends JavaPlugin implements TimoCloudLogger {
                         Thread.sleep(50); // Wait until we get the API data
                     } catch (Exception e) {
                     }
+                }
+                if(Bukkit.getPluginManager().getPlugin("AkarCore") != null){
+                    String letter = RandomStringUtils.random(1, "ABCDEFGHIJK");
+                    ServerObject serverObject = TimoCloudAPI.getBukkitAPI().getThisServer();
+                    if (serverObject != null) {
+                        ServerGroupObject serverGroupObject = serverObject.getGroup();
+                        if (serverGroupObject != null) {
+
+                            int ram = serverGroupObject.getRam();
+                            String type = "mini";
+                            if (ram > 4000) {
+                                type = "mega";
+                            }
+                            int number = AkarCore.getServerAK().getGlobalNumber();
+                            serverObject.setExtra(type+number+letter);
+                        }
+                    }
+                }
+                if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+                    new CloudPlaceholder(this).register();
                 }
                 this.enabled = true;
                 info("&aTimoCloudBukkit has been enabled!");

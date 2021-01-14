@@ -38,6 +38,14 @@
             <id>snakeyaml</id>
             <url>https://mvnrepository.com/artifact/org.yaml/snakeyaml</url>
         </repository>
+        <repository>
+            <id>akardoo-repo</id>
+            <url>http://repo.akardoo.com/repository/releases/</url>
+        </repository>
+        <repository>
+            <id>placeholderapi</id>
+            <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
     </repositories>
 
     <build>
@@ -86,6 +94,33 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>com.akardoo</groupId>
+            <artifactId>AkarCore-API</artifactId>
+            <version>0.15</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.akardoo</groupId>
+            <artifactId>AkarCore-Core</artifactId>
+            <version>0.15</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.akardoo</groupId>
+            <artifactId>AkarCore-Plugin</artifactId>
+            <version>0.15</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.9</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-api</artifactId>
