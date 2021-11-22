@@ -1,9 +1,0 @@
-prefix: '&6[&bTimo&fCloud&6]'
-fallbackGroup: 'Lobby'
-useFallback: true
-useGlobalMotd: true
-emergencyFallback: 'Economy'
-LobbyChooseStrategy: "RANDOM"
-lobbyCommands:
-- lobby
-- hub
