@@ -1,0 +1,23 @@
+dependencies {
+    api project(':api')
+
+    api 'io.netty:netty-transport:4.1.46.Final'
+    api 'io.netty:netty-handler:4.1.46.Final'
+    api 'io.netty:netty-transport-native-epoll:4.1.46.Final'
+
+    api 'commons-io:commons-io:2.6'
+    api 'org.yaml:snakeyaml:1.17'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.9.10.5'
+    api 'com.google.code.gson:gson:2.8.5'
+    api 'org.jline:jline:3.5.1'
+    api 'org.mockito:mockito-core:2.8.9'
+//  api 'org.powermock:powermock-core:1.7.3'
+//  api 'org.powermock:powermock-api-mockito2:1.7.3'
+
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    compileOnly 'me.clip:placeholderapi:2.10.9'
+    compileOnly 'net.md-5:bungeecord-api:1.17-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.17-R0.1-SNAPSHOT'
+}

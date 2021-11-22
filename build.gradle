@@ -1,0 +1,37 @@
+plugins {
+    id 'maven-publish'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+subprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'java-library'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    group 'cloud.timo.TimoCloud'
+    version '6.2.0'
+
+    compileJava {
+        options.compilerArgs << "-parameters"
+        sourceCompatibility = 8
+        targetCompatibility = 8
+    }
+
+    publishing {
+//    For install the project into ur .m2
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+    }
+
+    repositories {
+        mavenLocal()
+        maven { url 'https://repo.codemc.io/repository/nms/' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots'}
+        maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+        mavenCentral()
+    }
+
+}

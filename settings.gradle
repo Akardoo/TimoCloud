@@ -1,0 +1,5 @@
+rootProject.name = 'TimoCloud'
+
+['api', 'universal'].forEach {
+  include it
+}
